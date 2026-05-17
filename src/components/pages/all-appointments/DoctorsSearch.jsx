@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { FiSearch } from "react-icons/fi";
-import DoctorCard from "@/components/ui/DoctorsCard";
+import DoctorCard from "@/components/ui/DoctorCard";
 
 const DoctorsSearch = ({ doctors }) => {
     const [search, setSearch] = useState("");
@@ -24,7 +24,6 @@ const DoctorsSearch = ({ doctors }) => {
 
     return (
         <>
-            {/* Search Input */}
             <div className="max-w-md mx-auto relative">
                 <FiSearch
                     className="absolute left-4 top-1/2 -translate-y-1/2 text-base-content/40"
@@ -47,12 +46,10 @@ const DoctorsSearch = ({ doctors }) => {
                 )}
             </div>
 
-            {/* Result count */}
             <p className="text-xs text-base-content/40 mt-3">
                 {filtered.length} doctor{filtered.length !== 1 ? "s" : ""} found
             </p>
 
-            {/* No results */}
             {filtered.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-24 gap-3 text-center">
                     <div className="w-16 h-16 rounded-full bg-base-300 flex items-center justify-center">
@@ -69,7 +66,6 @@ const DoctorsSearch = ({ doctors }) => {
                 </div>
             )}
 
-            {/* Grid */}
             {filtered.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
                     {filtered.map((doctor) => (

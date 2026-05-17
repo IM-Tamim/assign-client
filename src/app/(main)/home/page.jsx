@@ -1,11 +1,19 @@
-import React from 'react';
+import HeroBanner from "@/components/pages/homepage/HeroBanner";
+import TopRatedDoctors from "@/components/pages/homepage/TopRatedDoctors";
 
-const page = () => {
+
+export const metadata = {
+    title: "Home | DocAppoint",
+    description: "Book doctor appointments instantly with DocAppoint.",
+};
+
+const HomePage = () => {
     return (
         <div>
-            
+            <HeroBanner />
+            <TopRatedDoctors/>
         </div>
     );
 };
 
-export default page;
+export default HomePage;
