@@ -10,3 +10,12 @@ export const getDoctorById = async (id) => {
     const res = await fetch(`${API_URL}/doctors/${id}`);
     return res.json();
 };
+
+export const bookAppointment = async (appointmentData) => {
+    const res = await fetch(`${API_URL}/appointments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(appointmentData),
+    });
+    return res.json();
+};
