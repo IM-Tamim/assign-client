@@ -1,0 +1,180 @@
+import { getDoctorById } from "@/lib/doctors";
+import { FiMapPin, FiClock, FiStar, FiUser, FiAward, FiCalendar, FiDollarSign } from "react-icons/fi";
+import { MdOutlineLocalHospital } from "react-icons/md";
+import Image from "next/image";
+import BookingModal from "@/components/pages/all-appointments/BookingModal";
+
+export const generateMetadata = async ({ params }) => {
+    const { id } = await params;
+    const doctor = await getDoctorById(id);
+    return {
+        title: `${doctor.name} | DocAppoint`,
+        description: doctor.description,
+    };
+};
+
+const DoctorDetailsPage = async ({ params }) => {
+    const { id } = await params;
+    const doctor = await getDoctorById(id);
+
+    return (
+        <div className="min-h-screen bg-linear-to-br from-base-200 via-base-200 to-base-300">
+            
+            <div className="container mx-auto px-4 py-8 md:py-12">
+                <div className="bg-base-100 rounded-2xl border border-base-300 shadow-xl overflow-hidden">
+                    
+                    <div className="h-1.5 bg-linear-to-r from-error to-primary"></div>
+                    
+                    <div className="p-6 md:p-8">
+                        <div className="flex flex-col lg:flex-row gap-8 items-start">
+                            
+                            {/* Image Card */}
+                            <div className="relative w-full lg:w-72 shrink-0">
+                                <div className="relative w-full h-80 lg:h-72 rounded-2xl overflow-hidden border-2 border-base-300 shadow-lg group">
+                                    <Image
+                                        src={doctor.image}
+                                        alt={doctor.name}
+                                        fill
+                                        className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                    {/* Badge overlay */}
+                                    <div className="absolute top-3 right-3 bg-error/90 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
+                                        Verified
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Info Section */}
+                            <div className="flex-1 space-y-5">
+                                
+                                {/* Specialty Badge & Name */}
+                                <div>
+                                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                                        <span className="text-xs font-bold uppercase tracking-wider bg-error/15 text-error px-4 py-1.5 rounded-full border border-error/30">
+                                            {doctor.specialty}
+                                        </span>
+                                        <span className="text-xs font-medium bg-primary/10 text-primary px-3 py-1.5 rounded-full flex items-center gap-1">
+                                            <FiAward size={12} />
+                                            Top Rated
+                                        </span>
+                                    </div>
+                                    <h1 className="text-3xl md:text-4xl font-black text-base-content leading-tight">
+                                        {doctor.name}
+                                    </h1>
+                                    <div className="flex items-center gap-2 mt-2">
+                                        <div className="flex items-center gap-1 text-warning">
+                                            <FiStar className="fill-warning" size={16} />
+                                            <span className="font-bold text-base-content">{doctor.rating}</span>
+                                        </div>
+                                        <span className="text-xs text-base-content/40">•</span>
+                                        <p className="text-sm text-base-content/60 flex items-center gap-1">
+                                            <FiUser size={12} />
+                                            {doctor.experience} experience
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                {/* Info Cards Grid */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                                    <div className="flex items-center gap-3 p-3 bg-base-200 rounded-xl border border-base-300">
+                                        <div className="w-9 h-9 rounded-full bg-error/10 flex items-center justify-center">
+                                            <MdOutlineLocalHospital size={18} className="text-error" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-base-content/40 font-medium">Hospital</p>
+                                            <p className="text-sm font-semibold text-base-content">{doctor.hospital}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="flex items-center gap-3 p-3 bg-base-200 rounded-xl border border-base-300">
+                                        <div className="w-9 h-9 rounded-full bg-error/10 flex items-center justify-center">
+                                            <FiMapPin size={18} className="text-error" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-base-content/40 font-medium">Location</p>
+                                            <p className="text-sm font-semibold text-base-content">{doctor.location}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Availability Section */}
+                                <div className="space-y-2">
+                                    <div className="flex items-center gap-2">
+                                        <FiClock size={14} className="text-error" />
+                                        <p className="text-xs font-semibold uppercase tracking-wider text-base-content/60">Available Time Slots</p>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {doctor.availability?.map((slot, i) => (
+                                            <span
+                                                key={i}
+                                                className="text-xs flex items-center gap-1.5 bg-base-200 border border-base-300 px-3 py-2 rounded-lg text-base-content/70 font-medium hover:border-error/50 hover:bg-error/5 transition-all duration-200"
+                                            >
+                                                <FiClock size={10} className="text-error" />
+                                                {slot}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                                
+                                {/* Fee & Booking Section */}
+                                <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-base-300 mt-2">
+                                    <div>
+                                        <p className="text-xs text-base-content/40 font-semibold uppercase tracking-wider">Consultation Fee</p>
+                                        <div className="flex items-baseline gap-1">
+                                            <span className="text-3xl font-black text-error">৳{doctor.fee}</span>
+                                            <span className="text-xs text-base-content/40">/ per visit</span>
+                                        </div>
+                                    </div>
+                                    <BookingModal doctor={doctor} />
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {/* About Section */}
+                <div className="mt-8 bg-base-100 rounded-2xl border border-base-300 shadow-lg overflow-hidden">
+                    <div className="h-1 w-20 bg-error"></div>
+                    <div className="p-6 md:p-8">
+                        <h2 className="text-xl font-black text-base-content mb-4 flex items-center gap-2">
+                            <span className="w-1 h-6 bg-error rounded-full"></span>
+                            About the Doctor
+                        </h2>
+                        <p className="text-base-content/70 leading-relaxed">
+                            {doctor.description}
+                        </p>
+                    </div>
+                </div>
+                
+                {/* Additional Info Card */}
+                <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-base-100 rounded-xl border border-base-300 p-4 text-center">
+                        <div className="w-10 h-10 rounded-full bg-error/10 flex items-center justify-center mx-auto mb-2">
+                            <FiCalendar className="text-error" size={18} />
+                        </div>
+                        <p className="text-xs text-base-content/40">Years of Experience</p>
+                        <p className="text-lg font-bold text-base-content">{doctor.experience}</p>
+                    </div>
+                    <div className="bg-base-100 rounded-xl border border-base-300 p-4 text-center">
+                        <div className="w-10 h-10 rounded-full bg-error/10 flex items-center justify-center mx-auto mb-2">
+                            <FiStar className="text-error fill-error/20" size={18} />
+                        </div>
+                        <p className="text-xs text-base-content/40">Patient Rating</p>
+                        <p className="text-lg font-bold text-base-content">{doctor.rating} / 5.0</p>
+                    </div>
+                    <div className="bg-base-100 rounded-xl border border-base-300 p-4 text-center">
+                        <div className="w-10 h-10 rounded-full bg-error/10 flex items-center justify-center mx-auto mb-2">
+                            <FiDollarSign className="text-error" size={18} />
+                        </div>
+                        <p className="text-xs text-base-content/40">Consultation Fee</p>
+                        <p className="text-lg font-bold text-error">৳{doctor.fee}</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    );
+};
+
+export default DoctorDetailsPage;
