@@ -40,3 +40,12 @@ export const deleteAppointment = async (id) => {
     });
     return res.json();
 };
+
+export const addReview = async (doctorId, reviewData) => {
+    const res = await fetch(`${API_URL}/doctors/${doctorId}/review`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reviewData),
+    });
+    return res.json();
+};

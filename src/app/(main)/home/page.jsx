@@ -1,4 +1,5 @@
 import HeroBanner from "@/components/pages/homepage/HeroBanner";
+import PatientTestimonials from "@/components/pages/homepage/PatientTestimonials";
 import TopRatedDoctors from "@/components/pages/homepage/TopRatedDoctors";
 import WhyChooseUs from "@/components/pages/homepage/WhyChooseUs";
 
@@ -14,6 +15,7 @@ const HomePage = () => {
             <HeroBanner />
             <TopRatedDoctors/>
             <WhyChooseUs/>
+            <PatientTestimonials/>
         </div>
     );
 };

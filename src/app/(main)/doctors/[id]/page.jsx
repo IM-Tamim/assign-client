@@ -3,6 +3,7 @@ import { FiMapPin, FiClock, FiStar, FiUser, FiAward, FiCalendar, FiDollarSign } 
 import { MdOutlineLocalHospital } from "react-icons/md";
 import Image from "next/image";
 import BookingModal from "@/components/pages/all-appointments/BookingModal";
+import ReviewSection from "@/components/pages/all-appointments/ReviewSection";
 
 export const generateMetadata = async ({ params }) => {
     const { id } = await params;
@@ -19,16 +20,15 @@ const DoctorDetailsPage = async ({ params }) => {
 
     return (
         <div className="min-h-screen bg-linear-to-br from-base-200 via-base-200 to-base-300">
-            
+
             <div className="container mx-auto px-4 py-8 md:py-12">
                 <div className="bg-base-100 rounded-2xl border border-base-300 shadow-xl overflow-hidden">
-                    
+
                     <div className="h-1.5 bg-linear-to-r from-error to-primary"></div>
-                    
+
                     <div className="p-6 md:p-8">
                         <div className="flex flex-col lg:flex-row gap-8 items-start">
-                            
-                            {/* Image Card */}
+
                             <div className="relative w-full lg:w-72 shrink-0">
                                 <div className="relative w-full h-80 lg:h-72 rounded-2xl overflow-hidden border-2 border-base-300 shadow-lg group">
                                     <Image
@@ -43,11 +43,9 @@ const DoctorDetailsPage = async ({ params }) => {
                                     </div>
                                 </div>
                             </div>
-                            
-                            {/* Info Section */}
+
                             <div className="flex-1 space-y-5">
-                                
-                                {/* Specialty Badge & Name */}
+
                                 <div>
                                     <div className="flex flex-wrap items-center gap-2 mb-3">
                                         <span className="text-xs font-bold uppercase tracking-wider bg-error/15 text-error px-4 py-1.5 rounded-full border border-error/30">
@@ -63,18 +61,14 @@ const DoctorDetailsPage = async ({ params }) => {
                                     </h1>
                                     <div className="flex items-center gap-2 mt-2">
                                         <div className="flex items-center gap-1 text-warning">
-                                            <FiStar className="fill-warning" size={16} />
-                                            <span className="font-bold text-base-content">{doctor.rating}</span>
                                         </div>
-                                        <span className="text-xs text-base-content/40">•</span>
                                         <p className="text-sm text-base-content/60 flex items-center gap-1">
                                             <FiUser size={12} />
                                             {doctor.experience} experience
                                         </p>
                                     </div>
                                 </div>
-                                
-                                {/* Info Cards Grid */}
+
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                                     <div className="flex items-center gap-3 p-3 bg-base-200 rounded-xl border border-base-300">
                                         <div className="w-9 h-9 rounded-full bg-error/10 flex items-center justify-center">
@@ -85,7 +79,7 @@ const DoctorDetailsPage = async ({ params }) => {
                                             <p className="text-sm font-semibold text-base-content">{doctor.hospital}</p>
                                         </div>
                                     </div>
-                                    
+
                                     <div className="flex items-center gap-3 p-3 bg-base-200 rounded-xl border border-base-300">
                                         <div className="w-9 h-9 rounded-full bg-error/10 flex items-center justify-center">
                                             <FiMapPin size={18} className="text-error" />
@@ -96,8 +90,7 @@ const DoctorDetailsPage = async ({ params }) => {
                                         </div>
                                     </div>
                                 </div>
-                                
-                                {/* Availability Section */}
+
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-2">
                                         <FiClock size={14} className="text-error" />
@@ -115,8 +108,7 @@ const DoctorDetailsPage = async ({ params }) => {
                                         ))}
                                     </div>
                                 </div>
-                                
-                                {/* Fee & Booking Section */}
+
                                 <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-base-300 mt-2">
                                     <div>
                                         <p className="text-xs text-base-content/40 font-semibold uppercase tracking-wider">Consultation Fee</p>
@@ -127,13 +119,12 @@ const DoctorDetailsPage = async ({ params }) => {
                                     </div>
                                     <BookingModal doctor={doctor} />
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                {/* About Section */}
+
                 <div className="mt-8 bg-base-100 rounded-2xl border border-base-300 shadow-lg overflow-hidden">
                     <div className="h-1 w-20 bg-error"></div>
                     <div className="p-6 md:p-8">
@@ -146,8 +137,7 @@ const DoctorDetailsPage = async ({ params }) => {
                         </p>
                     </div>
                 </div>
-                
-                {/* Additional Info Card */}
+
                 <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="bg-base-100 rounded-xl border border-base-300 p-4 text-center">
                         <div className="w-10 h-10 rounded-full bg-error/10 flex items-center justify-center mx-auto mb-2">
@@ -171,8 +161,12 @@ const DoctorDetailsPage = async ({ params }) => {
                         <p className="text-lg font-bold text-error">৳{doctor.fee}</p>
                     </div>
                 </div>
-                
             </div>
+            <ReviewSection
+                doctor={doctor}
+                initialRating={doctor.rating}
+                initialTotalReviews={doctor.totalReviews}
+            />
         </div>
     );
 };
