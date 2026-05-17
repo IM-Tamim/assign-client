@@ -44,7 +44,7 @@ const SignInForm = () => {
     const onBlur = (e) => (e.target.style.borderColor = "hsl(var(--b3))");
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-base-200 via-base-300 to-base-200">
+        <div className="min-h-screen flex items-center justify-center px-4 bg-linear-to-br from-base-200 via-base-300 to-base-200">
             <div className="w-full max-w-md">
 
                 <div className="text-center mb-8">

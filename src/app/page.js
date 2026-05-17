@@ -1,8 +1,7 @@
-import Image from "next/image";
-import { DiVim } from "react-icons/di";
+import { redirect } from 'next/navigation';
 
-export default function Home() {
-  return (
-    <h2>This is app page.</h2>
-  );
+export default function AppPage() {
+  redirect('/home');
+
+  return <div>Redirecting...</div>;
 }
