@@ -1,4 +1,7 @@
-import { FaGithub, FaFacebook, FaLinkedin, FaEnvelope, FaPhone, FaBook } from "react-icons/fa";
+import { FaGithub, FaFacebook, FaLinkedin, FaEnvelope, FaPhone } from "react-icons/fa";
+import { FaUserDoctor } from "react-icons/fa6";
+import Image from "next/image";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
     return (
@@ -8,15 +11,15 @@ const Footer = () => {
                 <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 text-center sm:text-left lg:justify-items-center">
 
                     <div className="space-y-4 flex flex-col items-center sm:items-start">
-                        <div className="flex items-center gap-2">
-                            <FaBook className="text-primary text-2xl" />
-                            <h2 className="text-2xl font-black tracking-tight">
-                                <span className="text-primary">Book</span>
-                                <span className="text-yellow-500">Loop</span>
+                        <div className="flex items-center justify-center gap-2">
+                            <Image src={logo} alt="Logo" width={30} height={30} className="inline-block" />
+                            <h2 className="text-2xl font-black tracking-tight leading-none">
+                                <span className="text-base-content">Doc</span>
+                                <span className="text-error">Appoint</span>
                             </h2>
                         </div>
                         <p className="text-sm text-base-content/70 leading-relaxed max-w-sm">
-                            Borrow. Read. Return. Repeat.
+                            Your health, our priority. Book instantly.
                         </p>
                         <div className="pt-2">
                             <div className="w-40 h-0.5 bg-primary/40 rounded-full"></div>
@@ -67,7 +70,7 @@ const Footer = () => {
                                 <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                                     <FaEnvelope className="text-primary text-sm" />
                                 </span>
-                                <span>support@bookloop.com</span>
+                                <span>support@docappoint.com</span>
                             </p>
                             <p className="flex items-center gap-3 text-sm text-base-content/70 justify-center sm:justify-start group">
                                 <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
@@ -90,7 +93,7 @@ const Footer = () => {
 
                 <div className="flex flex-col sm:flex-row justify-around items-center gap-4 text-center">
                     <p className="text-xs text-base-content/50">
-                        © {new Date().getFullYear()} BookLoop. All rights reserved.
+                        © {new Date().getFullYear()} DocAppoint. All rights reserved.
                     </p>
 
                     <div className="flex gap-1 items-center">

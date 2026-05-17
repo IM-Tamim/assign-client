@@ -3,12 +3,13 @@ import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SiGoogle } from "react-icons/si";
-import { Suspense } from "react";
-import { FiMail, FiLock, FiArrowRight } from "react-icons/fi";
+import { Suspense, useState } from "react";
+import { FiMail, FiLock, FiArrowRight, FiEye, FiEyeOff } from "react-icons/fi";
 import toast from "react-hot-toast";
 
 const SignInForm = () => {
     const router = useRouter();
+    const [showPassword, setShowPassword] = useState(false);
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -39,8 +40,9 @@ const SignInForm = () => {
         }
     };
 
-    const inputClass = "w-full pl-11 pr-4 py-3 rounded-xl text-sm outline-none transition-all bg-base-200 text-base-content border border-base-300 focus:border-primary";
-    const onFocus = (e) => (e.target.style.borderColor = "hsl(var(--p))");
+    const inputClass =
+        "w-full pl-11 pr-11 py-3 rounded-xl text-sm outline-none transition-all bg-base-200 text-base-content border border-base-300 focus:border-error";
+    const onFocus = (e) => (e.target.style.borderColor = "hsl(var(--error))");
     const onBlur = (e) => (e.target.style.borderColor = "hsl(var(--b3))");
 
     return (
@@ -48,23 +50,25 @@ const SignInForm = () => {
             <div className="w-full max-w-md">
 
                 <div className="text-center mb-8">
-                    <h1 className="text-4xl font-black tracking-tight text-primary">
-                        Book<span className="text-yellow-500">Loop</span>
+                    <h1 className="text-4xl font-black tracking-tight text-base-content">
+                        Doc<span className="text-error">Appoint</span>
                     </h1>
-                    <p className="text-sm mt-1 text-base-content/60">
-                        Login to your account
-                    </p>
+                    <p className="text-sm mt-1 text-base-content/60">Login to your account</p>
                 </div>
 
                 <div className="rounded-2xl p-8 border border-base-300 bg-base-100 shadow-2xl">
                     <form onSubmit={onSubmit} className="flex flex-col gap-5">
+
 
                         <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold uppercase tracking-widest text-base-content/60">
                                 Email
                             </label>
                             <div className="relative">
-                                <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-primary" size={15} />
+                                <FiMail
+                                    className="absolute left-4 top-1/2 -translate-y-1/2 text-error"
+                                    size={15}
+                                />
                                 <input
                                     name="email"
                                     type="email"
@@ -78,33 +82,51 @@ const SignInForm = () => {
                         </div>
 
                         <div className="flex flex-col gap-1.5">
-                            <label className="text-xs font-semibold uppercase tracking-widest text-base-content/60">
-                                Password
-                            </label>
+                            <div className="flex items-center justify-between">
+                                <label className="text-xs font-semibold uppercase tracking-widest text-base-content/60">
+                                    Password
+                                </label>
+                                <Link
+                                    href="/forgot-password"
+                                    className="text-xs text-error hover:text-error/70 font-medium transition-colors"
+                                >
+                                    Forgot Password?
+                                </Link>
+                            </div>
                             <div className="relative">
-                                <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-primary" size={15} />
+                                <FiLock
+                                    className="absolute left-4 top-1/2 -translate-y-1/2 text-error"
+                                    size={15}
+                                />
                                 <input
                                     name="password"
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     placeholder="••••••••"
                                     className={inputClass}
                                     onFocus={onFocus}
                                     onBlur={onBlur}
                                     required
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-base-content/50 hover:text-error transition-colors"
+                                >
+                                    {showPassword ? <FiEye size={15} />:<FiEyeOff size={15} />}
+                                </button>
                             </div>
                         </div>
-
+        
                         <div className="flex gap-3 mt-1">
                             <button
                                 type="submit"
-                                className="btn btn-accent btn-outline flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold"
+                                className="btn btn-error btn-outline flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold"
                             >
                                 Sign In <FiArrowRight size={15} />
                             </button>
                             <button
                                 type="reset"
-                                className="btn btn-error btn-outline px-5 py-3 rounded-xl text-sm font-medium"
+                                className="btn btn-warning btn-outline px-5 py-3 rounded-xl text-sm font-medium"
                             >
                                 Reset
                             </button>
@@ -126,8 +148,11 @@ const SignInForm = () => {
                         </button>
 
                         <p className="text-center text-sm text-base-content/60">
-                            Do not have an account?{" "}
-                            <Link href="/signup" className="text-secondary font-semibold hover:text-info">
+                            Don&apos;t have an account?{" "}
+                            <Link
+                                href="/signup"
+                                className="text-secondary font-semibold hover:text-info"
+                            >
                                 Register
                             </Link>
                         </p>
@@ -141,11 +166,13 @@ const SignInForm = () => {
 
 const SignInPage = () => {
     return (
-        <Suspense fallback={
-            <div className="min-h-screen flex items-center justify-center bg-base-200">
-                <span className="loading loading-spinner text-primary"></span>
-            </div>
-        }>
+        <Suspense
+            fallback={
+                <div className="min-h-screen flex items-center justify-center bg-base-200">
+                    <span className="loading loading-spinner text-primary"></span>
+                </div>
+            }
+        >
             <SignInForm />
         </Suspense>
     );

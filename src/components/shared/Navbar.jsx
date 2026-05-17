@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import NavLink from "./NavLink";
 import toast from "react-hot-toast";
+import logo from "@/assets/logo.png";
 
 
 const Navbar = () => {
@@ -12,8 +13,8 @@ const Navbar = () => {
 
     const links = <>
         <li><NavLink href="/home">Home</NavLink></li>
-        <li><NavLink href="/something">Something</NavLink></li>
-        <li><NavLink href="/profile">Profile</NavLink></li>
+        <li><NavLink href="/all-appointments">All Appointment</NavLink></li>
+        <li><NavLink href="/dashboard">Dashboard</NavLink></li>
     </>
 
     return (
@@ -28,14 +29,17 @@ const Navbar = () => {
                         </div>
                         <ul
                             tabIndex="-1"
-                            className="menu menu-sm dropdown-content rounded-box z-50 mt-3 w-52 p-2 shadow-xl bg-base-200 border border-primary/15"
+                            className="menu menu-sm dropdown-content rounded-box z-50 mt-3 w-52 p-2 shadow-xl bg-base-200 border border-error/15"
                         >
                             {links}
                         </ul>
                     </div>
-                    <Link href={'/home'} className="btn btn-ghost text-xl font-black hidden lg:block tracking-tight">
-                        <span className="text-primary">Book</span><span className="text-yellow-500">Loop</span>
-                    </Link>
+                    <div className="text-xl font-black hidden tracking-tight lg:flex items-center gap-1">
+                        <Image src={logo} alt="Logo" width={40} height={40} />
+                        <Link href={'/home'} className="font-bold">
+                            <span className="text-base-content">Doc</span><span className="text-error">Appoint</span>
+                        </Link>
+                    </div>
                 </div>
 
                 <div className="navbar-center hidden lg:flex">
@@ -84,13 +88,13 @@ const Navbar = () => {
                         <div className="flex items-center gap-2">
                             <Link
                                 href="/signin"
-                                className="btn btn-sm btn-info rounded-lg text-sm font-medium"
+                                className="btn btn-sm btn-error rounded-lg text-sm font-medium"
                             >
                                 Login
                             </Link>
                             <Link
                                 href="/signup"
-                                className="btn btn-sm btn-info btn-soft rounded-lg text-sm font-bold"
+                                className="btn btn-sm btn-error btn-soft rounded-lg text-sm font-bold"
                             >
                                 Register
                             </Link>
