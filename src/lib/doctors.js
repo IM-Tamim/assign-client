@@ -19,3 +19,24 @@ export const bookAppointment = async (appointmentData) => {
     });
     return res.json();
 };
+
+export const getAppointmentsByEmail = async (email) => {
+    const res = await fetch(`${API_URL}/appointments?email=${email}`);
+    return res.json();
+};
+
+export const updateAppointment = async (id, updatedData) => {
+    const res = await fetch(`${API_URL}/appointments/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedData),
+    });
+    return res.json();
+};
+ 
+export const deleteAppointment = async (id) => {
+    const res = await fetch(`${API_URL}/appointments/${id}`, {
+        method: "DELETE",
+    });
+    return res.json();
+};
