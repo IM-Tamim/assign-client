@@ -1,16 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
-import { getAppointmentsByEmail, deleteAppointment } from "@/lib/doctors";
+import { getAppointmentsByEmail } from "@/lib/doctors";
 import { FiCalendar, FiClock, FiPhone, FiUser, FiTrash2, FiEdit2 } from "react-icons/fi";
+import { MdOutlineLocalHospital } from "react-icons/md";
 import toast from "react-hot-toast";
 import UpdateModal from "./UpdateModal";
-import { FaUserDoctor } from "react-icons/fa6";
+import DeleteModal from "./DeleteModal";
 
 const MyBookings = () => {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
+    const [appointmentToDelete, setAppointmentToDelete] = useState(null);
     const { data: session } = authClient.useSession();
 
     const email = session?.user?.email;
@@ -33,14 +35,9 @@ const MyBookings = () => {
         fetchAppointments();
     }, [email]);
 
-    const handleDelete = async (id) => {
-        try {
-            await deleteAppointment(id);
-            setAppointments((prev) => prev.filter((a) => a._id !== id));
-            toast.success("Appointment deleted successfully!");
-        } catch {
-            toast.error("Failed to delete appointment.");
-        }
+    const handleDeleteSuccess = (id) => {
+        setAppointments((prev) => prev.filter((a) => a._id !== id));
+        setAppointmentToDelete(null);
     };
 
     const handleUpdateSuccess = (updated) => {
@@ -79,9 +76,10 @@ const MyBookings = () => {
                         key={appt._id}
                         className="bg-base-100 border border-base-300 rounded-2xl p-5 flex flex-col gap-3"
                     >
+                        {/* Doctor */}
                         <div className="flex items-center gap-2 pb-3 border-b border-base-300">
                             <div className="w-9 h-9 rounded-xl bg-error/10 flex items-center justify-center shrink-0">
-                                <FaUserDoctor size={16} className="text-error" />
+                                <MdOutlineLocalHospital size={16} className="text-error" />
                             </div>
                             <div>
                                 <p className="font-bold text-sm text-base-content">{appt.doctorName}</p>
@@ -89,6 +87,7 @@ const MyBookings = () => {
                             </div>
                         </div>
 
+                        {/* Details */}
                         <div className="flex flex-col gap-2">
                             <p className="text-xs text-base-content/60 flex items-center gap-2">
                                 <FiUser size={12} className="text-error shrink-0" />
@@ -113,6 +112,7 @@ const MyBookings = () => {
                             )}
                         </div>
 
+                        {/* Actions */}
                         <div className="flex gap-2 mt-auto pt-3 border-t border-base-300">
                             <button
                                 onClick={() => setSelectedAppointment(appt)}
@@ -121,7 +121,7 @@ const MyBookings = () => {
                                 <FiEdit2 size={13} /> Update
                             </button>
                             <button
-                                onClick={() => handleDelete(appt._id)}
+                                onClick={() => setAppointmentToDelete(appt)}
                                 className="btn btn-sm btn-warning btn-outline flex-1 rounded-xl flex items-center gap-1"
                             >
                                 <FiTrash2 size={13} /> Delete
@@ -131,11 +131,21 @@ const MyBookings = () => {
                 ))}
             </div>
 
+            {/* Update Modal */}
             {selectedAppointment && (
                 <UpdateModal
                     appointment={selectedAppointment}
                     onSuccess={handleUpdateSuccess}
                     onClose={() => setSelectedAppointment(null)}
+                />
+            )}
+
+            {/* Delete Modal */}
+            {appointmentToDelete && (
+                <DeleteModal
+                    appointment={appointmentToDelete}
+                    onSuccess={handleDeleteSuccess}
+                    onClose={() => setAppointmentToDelete(null)}
                 />
             )}
         </>
