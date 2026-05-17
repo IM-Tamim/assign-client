@@ -5,7 +5,7 @@ import logo from "@/assets/logo.png";
 
 const Footer = () => {
     return (
-        <footer className="bg-base-200 text-base-content border-t border-base-300 mt-auto">
+        <footer className="bg-base-300 text-base-content border-t border-base-300 mt-auto">
             <div className="max-w-7xl mx-auto px-6 py-12">
 
                 <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 text-center sm:text-left lg:justify-items-center">
@@ -87,7 +87,7 @@ const Footer = () => {
                         <div className="w-full border-t border-base-300"></div>
                     </div>
                     <div className="relative flex justify-center">
-                        <span className="bg-base-200 px-4 text-xs text-base-content/40">● ● ●</span>
+                        <span className="bg-base-300 px-4 text-xs text-base-content/40">● ● ●</span>
                     </div>
                 </div>
 
