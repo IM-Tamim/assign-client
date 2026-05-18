@@ -72,7 +72,6 @@ const DoctorsSearch = ({ doctors }) => {
                         <DoctorCard
                             key={doctor._id}
                             doctor={doctor}
-                            onViewDetails={handleViewDetails}
                         />
                     ))}
                 </div>

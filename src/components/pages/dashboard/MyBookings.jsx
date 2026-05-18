@@ -23,7 +23,8 @@ const MyBookings = () => {
         const fetchAppointments = async () => {
             setLoading(true);
             try {
-                const data = await getAppointmentsByEmail(email);
+                const { data: tokenData } = await authClient.token();
+                const data = await getAppointmentsByEmail(email, tokenData?.token);
                 setAppointments(data);
             } catch {
                 toast.error("Failed to load appointments.");

@@ -68,7 +68,8 @@ const ReviewSection = ({ doctor }) => {
         };
 
         try {
-            await addReview(doctor._id, reviewData);
+            const { data: tokenData } = await authClient.token();
+            await addReview(doctor._id, reviewData, tokenData?.token);
             const newReview = {
                 ...reviewData,
                 date: new Date().toISOString(),

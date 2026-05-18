@@ -4,10 +4,13 @@ import { MdOutlineLocalHospital } from "react-icons/md";
 import Image from "next/image";
 import BookingModal from "@/components/pages/all-appointments/BookingModal";
 import ReviewSection from "@/components/pages/all-appointments/ReviewSection";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export const generateMetadata = async ({ params }) => {
     const { id } = await params;
-    const doctor = await getDoctorById(id);
+    const { token } = await auth.api.getToken({ headers: await headers() });
+    const doctor = await getDoctorById(id, token);
     return {
         title: `${doctor.name} | DocAppoint`,
         description: doctor.description,
@@ -16,7 +19,10 @@ export const generateMetadata = async ({ params }) => {
 
 const DoctorDetailsPage = async ({ params }) => {
     const { id } = await params;
-    const doctor = await getDoctorById(id);
+    const { token } = await auth.api.getToken({
+        headers: await headers()
+    });
+    const doctor = await getDoctorById(id, token);
 
     return (
         <div className="min-h-screen bg-linear-to-br from-base-200 via-base-200 to-base-300">
@@ -37,7 +43,6 @@ const DoctorDetailsPage = async ({ params }) => {
                                         fill
                                         className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                                     />
-                                    {/* Badge overlay */}
                                     <div className="absolute top-3 right-3 bg-error/90 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
                                         Verified
                                     </div>
@@ -60,8 +65,6 @@ const DoctorDetailsPage = async ({ params }) => {
                                         {doctor.name}
                                     </h1>
                                     <div className="flex items-center gap-2 mt-2">
-                                        <div className="flex items-center gap-1 text-warning">
-                                        </div>
                                         <p className="text-sm text-base-content/60 flex items-center gap-1">
                                             <FiUser size={12} />
                                             {doctor.experience} experience
@@ -162,11 +165,8 @@ const DoctorDetailsPage = async ({ params }) => {
                     </div>
                 </div>
             </div>
-            <ReviewSection
-                doctor={doctor}
-                initialRating={doctor.rating}
-                initialTotalReviews={doctor.totalReviews}
-            />
+
+            <ReviewSection doctor={doctor} />
         </div>
     );
 };

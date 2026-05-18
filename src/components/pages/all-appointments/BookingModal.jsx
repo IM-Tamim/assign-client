@@ -21,9 +21,9 @@ const BookingModal = ({ doctor }) => {
         const data = Object.fromEntries(formData.entries());
 
         const appointmentData = {
-            userEmail: session?.user?.email,   // from session, not shown
-            doctorName: doctor.name,           // from props, not shown
-            doctorId: doctor._id,              // from props, not shown
+            userEmail: session?.user?.email,
+            doctorName: doctor.name,
+            doctorId: doctor._id,
             patientName: data.patientName,
             gender: data.gender,
             phone: data.phone,
@@ -33,7 +33,8 @@ const BookingModal = ({ doctor }) => {
         };
 
         try {
-            await bookAppointment(appointmentData);
+            const { data: tokenData } = await authClient.token();
+            await bookAppointment(appointmentData, tokenData?.token);
             toast.success("Appointment booked successfully!");
             setIsOpen(false);
             e.target.reset();
@@ -46,7 +47,6 @@ const BookingModal = ({ doctor }) => {
 
     return (
         <>
-            {/* Trigger */}
             <button
                 onClick={() => setIsOpen(true)}
                 className="btn btn-error rounded-xl font-bold shadow-lg shadow-error/20"
@@ -54,17 +54,14 @@ const BookingModal = ({ doctor }) => {
                 Book Appointment
             </button>
 
-            {/* Modal */}
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
 
-                    {/* Backdrop */}
                     <div
                         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
                         onClick={() => setIsOpen(false)}
                     />
 
-                    {/* Box */}
                     <div className="relative bg-base-100 rounded-2xl border border-base-300 shadow-2xl w-full max-w-md z-10 max-h-[90vh] overflow-y-auto">
 
                         {/* Header */}
@@ -83,7 +80,6 @@ const BookingModal = ({ doctor }) => {
 
                         <form onSubmit={onSubmit} className="px-6 pb-6 flex flex-col gap-4">
 
-                            {/* Patient Name */}
                             <div className="flex flex-col gap-1.5">
                                 <label className="text-sm font-semibold text-base-content">
                                     Patient Name <span className="text-error">*</span>
@@ -97,7 +93,6 @@ const BookingModal = ({ doctor }) => {
                                 />
                             </div>
 
-                            {/* Gender + Phone */}
                             <div className="grid grid-cols-2 gap-3">
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-sm font-semibold text-base-content">
@@ -124,7 +119,6 @@ const BookingModal = ({ doctor }) => {
                                 </div>
                             </div>
 
-                            {/* Date + Time */}
                             <div className="grid grid-cols-2 gap-3">
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-sm font-semibold text-base-content">
@@ -151,7 +145,6 @@ const BookingModal = ({ doctor }) => {
                                 </div>
                             </div>
 
-                            {/* Reason */}
                             <div className="flex flex-col gap-1.5">
                                 <label className="text-sm font-semibold text-base-content">
                                     Reason <span className="text-base-content/40 font-normal">(optional)</span>
@@ -164,7 +157,6 @@ const BookingModal = ({ doctor }) => {
                                 />
                             </div>
 
-                            {/* Submit */}
                             <button
                                 type="submit"
                                 disabled={loading}

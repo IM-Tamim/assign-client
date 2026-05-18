@@ -3,6 +3,7 @@ import { useState } from "react";
 import { deleteAppointment } from "@/lib/doctors";
 import toast from "react-hot-toast";
 import { FiTrash2, FiX } from "react-icons/fi";
+import { authClient } from "@/lib/auth-client";
 
 const DeleteModal = ({ appointment, onSuccess, onClose }) => {
     const [loading, setLoading] = useState(false);
@@ -10,7 +11,8 @@ const DeleteModal = ({ appointment, onSuccess, onClose }) => {
     const handleDelete = async () => {
         setLoading(true);
         try {
-            await deleteAppointment(appointment._id);
+            const { data: tokenData } = await authClient.token();
+            await deleteAppointment(appointment._id, tokenData?.token);
             toast.success("Appointment deleted successfully!");
             onSuccess(appointment._id);
         } catch {
@@ -23,13 +25,10 @@ const DeleteModal = ({ appointment, onSuccess, onClose }) => {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
 
-            {/* Backdrop */}
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
-            {/* Box */}
             <div className="relative bg-base-100 rounded-2xl border border-base-300 shadow-2xl w-full max-w-sm z-10">
 
-                {/* Header */}
                 <div className="flex items-start justify-between p-6 pb-4">
                     <div className="w-12 h-12 rounded-xl bg-error/10 border border-error/20 flex items-center justify-center">
                         <FiTrash2 size={20} className="text-error" />
@@ -39,7 +38,6 @@ const DeleteModal = ({ appointment, onSuccess, onClose }) => {
                     </button>
                 </div>
 
-                {/* Content */}
                 <div className="px-6 pb-6 flex flex-col gap-5">
                     <div>
                         <h3 className="font-black text-lg text-base-content">Delete Appointment</h3>
@@ -50,7 +48,6 @@ const DeleteModal = ({ appointment, onSuccess, onClose }) => {
                         </p>
                     </div>
 
-                    {/* Actions */}
                     <div className="flex gap-3">
                         <button
                             type="button"

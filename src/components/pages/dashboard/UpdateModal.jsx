@@ -3,6 +3,7 @@ import { useState } from "react";
 import { updateAppointment } from "@/lib/doctors";
 import toast from "react-hot-toast";
 import { FiX } from "react-icons/fi";
+import { authClient } from "@/lib/auth-client";
 
 const UpdateModal = ({ appointment, onSuccess, onClose }) => {
     const [loading, setLoading] = useState(false);
@@ -30,6 +31,7 @@ const UpdateModal = ({ appointment, onSuccess, onClose }) => {
         };
 
         try {
+            const { data: tokenData } = await authClient.token();
             await updateAppointment(appointment._id, {
                 patientName: data.patientName,
                 gender: data.gender,
@@ -37,7 +39,7 @@ const UpdateModal = ({ appointment, onSuccess, onClose }) => {
                 appointmentDate: data.appointmentDate,
                 appointmentTime: data.appointmentTime,
                 reason: data.reason || "",
-            });
+            },tokenData?.token);
             toast.success("Appointment updated successfully!");
             onSuccess(updated);
         } catch {
