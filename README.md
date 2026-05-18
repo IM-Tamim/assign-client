@@ -46,9 +46,9 @@ Browse verified doctors, book appointments instantly, manage your bookings, and 
 
 | Resource | URL |
 |---|---|
-| 🌐 **Client Live** | [https://docappoint.vercel.app](https://docappoint.vercel.app) |
+| 🌐 **Client Live** | [https://doctor-appointment-client-woad.vercel.app](https://doctor-appointment-client-woad.vercel.app/) |
 | 💻 **Client Repository** | [https://github.com/IM-Tamim/doctor-appointment-client](https://github.com/IM-Tamim/doctor-appointment-client) |
-| 🖥️ **Server Live** | [https://docappoint-server.onrender.com](https://docappoint-server.onrender.com) |
+| 🖥️ **Server Live** | [https://doctor-appointment-server-ln61.onrender.com](https://doctor-appointment-server-ln61.onrender.com/) |
 | 📁 **Server Repository** | [https://github.com/IM-Tamim/doctor-appointment-server](https://github.com/IM-Tamim/doctor-appointment-server) |
 
 ---
@@ -150,8 +150,8 @@ DocAppoint uses **Better Auth** with the **JWT plugin** for authentication.
 
 ```bash
 # Clone the repository
-git clone https://github.com/username/docappoint-client.git
-cd docappoint-client
+git clone https://github.com/IM-Tamim/doctor-appointment-client.git
+cd doctor-appointment-client
 
 # Install dependencies
 npm install
