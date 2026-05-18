@@ -5,7 +5,7 @@ import Image from "next/image";
 import NavLink from "./NavLink";
 import toast from "react-hot-toast";
 import logo from "@/assets/logo.png";
-
+import ThemeController from "./ThemeController";
 
 const Navbar = () => {
     const { data: session, isPending } = authClient.useSession();
@@ -48,7 +48,9 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                <div className="navbar-end">
+                <div className="navbar-end gap-3">
+                    <ThemeController />
+
                     {isPending ? (
                         <span className="loading loading-spinner text-secondary"></span>
                     ) : user ? (
